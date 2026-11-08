@@ -4,7 +4,7 @@ Deployment report and operating procedures for a single HGX H200 node with a Blu
 
 **System:** HGX H200.
 
-The deployment moves LACP from the Host to the DPU, preserves public/private VLANs, adds reboot persistence and IPv4/ARP anti-spoofing, and evaluates throughput and rate limiting.
+The deployment moves LACP from the Host to the DPU, preserves public/private VLANs, adds reboot persistence and IPv4/ARP anti-spoofing, and evaluates throughput, rate limiting, and TCP/RDMA failover.
 
 ## Documentation
 
@@ -16,6 +16,7 @@ Read the deployment guides in order for a new installation. For an existing syst
 | [Firmware and management](docs/firmware-and-management.md) | Steps 1–3: DPU Mode, RShim/TMFIFO, Hash Mode, and command conventions |
 | [LAG deployment](docs/lag-deployment.md) | Steps 4–6: backups, staging, cutover, and runtime validation |
 | [Persistence](docs/persistence.md) | Steps 7–8: startup configuration and reboot validation |
+| [LACP failover](docs/lacp-failover.md) | Switch-port failure test, TCP/RDMA measurements, and recovery evidence |
 | [Anti-spoofing](docs/anti-spoofing.md) | Step 9: IPv4/ARP rules, packet tests, and offload checks |
 | [Benchmarks](docs/benchmarks.md) | Step 10: TCP stream scaling and baseline measurements |
 | [Rate limiting](docs/rate-limiting.md) | Steps 11–12: OVS policing, PF0 TX limits, and TC rate representation |
@@ -34,11 +35,14 @@ The anti-spoofing scripts (`/root/bf3-antispoof/apply.sh` on the DPU and `/root/
 - Move **2×200GbE** LACP from Linux `bond0` on the HGX Host to **DPU-managed LAG**, allowing the Host to use a single PF for both public and private VLANs.
 - Preserve IP addresses, the default route, and management access during a controlled transition using **KVM + RShim/TMFIFO**.
 - Automatically restore the DPU bond, OVS datapath, Host VLANs, and management channel after system reboots.
+- Evaluate TCP/RDMA traffic and ICMP reachability when a physical LACP member fails and is restored.
 - Deploy IPv4/ARP IP/MAC anti-spoofing on the DPU as a foundation for further policy development independent of the Host/VM.
 - Measure TCP throughput with multiple streams over the 2×200GbE DPU LAG; test **TX 100 Gb/s and RX 100 Gb/s** limits, compare OpenFlow/TC/hardware offload behavior, identify viable mechanisms, and document current limitations.
 
 ## Current Outcome
 
 DPU-managed 2×200GbE LAG and reboot persistence were validated. Peak throughput reached **360.43 Gb/s TX** and **362 Gb/s RX** with 32 TCP streams. PF0 TX limiting at 100 Gb/s passed; RX metering at 100 Gb/s did not. See [results and limitations](docs/results.md) for the complete measurements.
+
+The [LACP failover test](docs/lacp-failover.md) reported continued ICMP reachability and TCP/RDMA throughput with `p0` down. Logs confirming LAG reconvergence after port restoration and measurements of interruption duration are still missing.
 
 Use HGX KVM and RShim/TMFIFO for disruptive work. Review the applicable [rollback scenario](docs/rollback/README.md) before cutover or policy changes.

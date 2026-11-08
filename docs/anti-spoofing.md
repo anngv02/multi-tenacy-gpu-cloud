@@ -1,6 +1,6 @@
 # IPv4/ARP IP/MAC Anti-Spoofing
 
-[Overview](../README.md) | [Rollback](rollback/README.md) | [Previous: Persistence and Reboot Validation](persistence.md) | [Next: Throughput Benchmarks](benchmarks.md)
+[Overview](../README.md) | [Rollback](rollback/README.md) | [Previous: LACP Failover](lacp-failover.md) | [Next: Throughput Benchmarks](benchmarks.md)
 
 Run Host commands from HGX KVM and DPU commands on BlueField ARM. See the [execution conventions](firmware-and-management.md) before making changes.
 

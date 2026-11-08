@@ -49,3 +49,5 @@ bash run32.sh after_rollback
 | 332.08 Gb/s | 353.86 Gb/s | 337.83 Gb/s | **341.26 Gb/s** |
 
 The repeated measurements confirm that the baseline recovered after rollback, providing a reference for rate limiting comparisons; differences between runs indicate remaining variation due to TCP load/congestion.
+
+Separate [LACP failover measurements](lacp-failover.md#reported-tcp-and-rdma-measurements) cover TCP and RDMA before, during, and after a switch-port outage. Their traffic parameters and rate-limit state were not recorded, so they are not directly comparable to this TCP baseline.

@@ -99,3 +99,5 @@ PASS: runtime topology/LACP/MTU/public reachability.
 ```
 
 *Note:* The two 200GbE links provide **400 Gb/s of nominal aggregate link capacity in each direction**; this does not mean that applications have measured 400 Gb/s. The private VLAN retains its address; validating end-to-end private connectivity requires a valid private peer.
+
+For behavior during a single-member outage, see the separate [LACP failover report](lacp-failover.md). Runtime validation above checks the healthy two-member topology; it does not measure traffic interruption during failover.

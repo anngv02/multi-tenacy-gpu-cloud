@@ -8,6 +8,8 @@
 | DPU management | RShim/TMFIFO and ARM SSH operational; restored after Host reboot |
 | DPU LAG                                       | **802.3ad, Hash Mode, p0+p1, 2×200GbE**                                                       |
 | LACP | Both members in the same aggregator; collecting/distributing |
+| LACP failover with `p0 DOWN` | ICMP continued; reported TCP **93.6 Gb/s** and RDMA **60.29 Gb/s**, with `p1` and `bond0` UP |
+| LACP recovery after switch-port restoration | Third-phase traffic figures reported; logs confirming two-member reconvergence not supplied |
 | Forwarding                                    | `Host PF0 ↔ pf0hpf ↔ ovsbr1 ↔ DPU bond0 ↔ ToR`                                                |
 | Public/private VLANs | Both VLANs, IP addresses, and gateway preserved; Host parent is PF0 |
 | OVS | Forwarding with hardware offload for eligible flows |
@@ -23,3 +25,5 @@
 | RX 100 Gb/s through OpenFlow Meter | **Failed: 30.16 Gb/s**, TC displayed `31280Mbit` |
 
 **Conclusion:** DPU-managed 2×200GbE LAG and LAG persistence are complete; IPv4/ARP anti-spoofing has been deployed and tested; peak TX of **360.43 Gb/s** and RX of **362 Gb/s** were measured with 32 TCP streams. **TX rate limiting at 100 Gb/s passed** through Host PF0 (`93.72 Gb/s` average), while **RX 100 Gb/s failed** through OpenFlow Meter because TC actually displayed only `31.28 Gb/s`. RX metering at 10 Gb/s worked (`9.64 Gb/s`).
+
+The separate [LACP failover report](lacp-failover.md) records traffic continuing with `p0` down. It does not establish zero-loss session continuity, failover duration, complete LAG reconvergence after restoring the switch port, or behavior when `p1` fails. TCP/RDMA arithmetic sums are not verified aggregate bandwidth measurements.

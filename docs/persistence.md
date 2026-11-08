@@ -1,6 +1,6 @@
 # Persistence and Reboot Validation
 
-[Overview](../README.md) | [Rollback](rollback/README.md) | [Previous: DPU-managed LAG Deployment](lag-deployment.md) | [Next: IPv4/ARP IP/MAC Anti-Spoofing](anti-spoofing.md)
+[Overview](../README.md) | [Rollback](rollback/README.md) | [Previous: DPU-managed LAG Deployment](lag-deployment.md) | [Next: LACP Failover](lacp-failover.md)
 
 Run Host commands from HGX KVM and DPU commands on BlueField ARM. See the [execution conventions](firmware-and-management.md) before making changes.
 
